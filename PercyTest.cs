@@ -30,8 +30,8 @@ namespace PoaScreenshot{
       browserstackOptions.Add("buildName", "dotnet Android build");
       browserstackOptions.Add("sessionName", "first_visual_test");
       browserstackOptions.Add("local", "false");
-      browserstackOptions.Add("userName", "shivamsingh_5WHsDt");
-      browserstackOptions.Add("accessKey", "QW5MbjdhQCRQnndzo1Mx");
+      browserstackOptions.Add("userName", USERNAME);
+      browserstackOptions.Add("accessKey", ACCESS_KEY);
       browserstackOptions.Add("browserName", "chrome");
       capabilities.AddAdditionalCapability("bstack:options", browserstackOptions);
       driver = new AndroidDriver<AndroidElement>(new Uri(BROWSERSTACK_URL), capabilities);
