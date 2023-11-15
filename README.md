@@ -1,24 +1,24 @@
-# example-percy-automate-selenium-dotnet
+# example-percy-automate-appium-dotnet
 
 Example repo used by the Percy on Automate demonstrating Percy on Automate integration with .NET.
 
-## .NET on Automate Selenium Tutorial
+## .NET on Automate appium Tutorial
 
-The tutorial assumes you're already familiar with .NET and Selenium and focuses on using it with Percy. You'll still be able to follow along if you're not familiar with .NET, Selenium, but we won't spend time introducing .NET, Selenium concepts.
+The tutorial assumes you're already familiar with .NET and Appium and focuses on using it with Percy. You'll still be able to follow along if you're not familiar with .NET, Appium, but we won't spend time introducing .NET, Appium concepts.
 
 ### Step 1
 
 Clone the example application and install dependencies:
 
-Minimum required `@percy/cli` and `@percy/webdriver-utils` version is `1.27.0-beta.0` for this to work correctly. If you already have `@percy/cli` or `@percy/webdriver-utils` installed please update it to latest or minium required version.
+Minimum required `@percy/cli` version is `1.27.3` for this to work correctly. If you already have `@percy/cli` installed please update it to latest or minium required version.
 
 ```bash
-$ git clone git@github.com:percy/example-percy-automate-selenium-dotnet.git
-$ cd example-percy-automate-selenium-dotnet
-$ dotnet build
+$ git clone git@github.com:percy/example-percy-automate-appium-dotnet.git
+$ cd example-percy-automate-appium-dotnet
+$ dotnet build --property WarningLevel=0
 ```
 
-This tutorial specifically uses Browserstack Automate to run selenium test.
+This tutorial specifically uses Browserstack Automate to run appium test.
 
 For automate you will need credentials so refer to following instructions to get the same
 

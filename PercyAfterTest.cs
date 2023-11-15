@@ -19,8 +19,6 @@ namespace PoaScreenshot{
 
     protected WebDriverWait wait;
 
-    public PercyAfterTest() : base() { }
-
     [SetUp]
     public void Init()
     {

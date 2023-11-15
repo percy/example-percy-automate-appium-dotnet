@@ -19,8 +19,6 @@ namespace PoaScreenshot{
 
     protected WebDriverWait wait;
 
-    public PercyTest() : base() { }
-
     [SetUp]
     public void Init()
     {
@@ -82,7 +80,6 @@ namespace PoaScreenshot{
             
             Assert.AreEqual(productOnCartText, productOnPageText);
         }
-
 
         [TearDown]
         public void Cleanup()
