@@ -29,6 +29,7 @@ namespace PoaScreenshot{
       browserstackOptions.Add("projectName", "My first Percy on Automate Project");
       browserstackOptions.Add("buildName", "dotnet Android build");
       browserstackOptions.Add("sessionName", "first_visual_test");
+      browserstackOptions.Add("realMobile", true);
       browserstackOptions.Add("local", "false");
       browserstackOptions.Add("userName", USERNAME);
       browserstackOptions.Add("accessKey", ACCESS_KEY);

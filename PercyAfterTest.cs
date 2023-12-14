@@ -30,6 +30,7 @@ namespace PoaScreenshot{
       browserstackOptions.Add("buildName", "dotnet Android build");
       browserstackOptions.Add("sessionName", "first_visual_test");
       browserstackOptions.Add("local", "false");
+      browserstackOptions.Add("realMobile", true);
       browserstackOptions.Add("userName", USERNAME);
       browserstackOptions.Add("accessKey", ACCESS_KEY);
       browserstackOptions.Add("browserName", "chrome");
