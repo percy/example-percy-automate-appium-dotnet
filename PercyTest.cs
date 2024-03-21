@@ -24,11 +24,11 @@ namespace PoaScreenshot{
     {
       AppiumOptions capabilities = new AppiumOptions();
       Dictionary<string, object> browserstackOptions = new Dictionary<string, object>();
-      browserstackOptions.Add("osVersion", "10.0");
-      browserstackOptions.Add("deviceName", "Samsung Galaxy S20");
-      browserstackOptions.Add("projectName", "My first Percy on Automate Project");
-      browserstackOptions.Add("buildName", "dotnet Android build");
-      browserstackOptions.Add("sessionName", "first_visual_test");
+      browserstackOptions.Add("osVersion", "11.0");
+      browserstackOptions.Add("deviceName", "Samsung Galaxy S21 Ultra");
+      browserstackOptions.Add("projectName", "Percy");
+      browserstackOptions.Add("buildName", "Appium SDKs");
+      browserstackOptions.Add("sessionName", "dotnet-android11");
       browserstackOptions.Add("realMobile", true);
       browserstackOptions.Add("local", "false");
       browserstackOptions.Add("userName", USERNAME);
