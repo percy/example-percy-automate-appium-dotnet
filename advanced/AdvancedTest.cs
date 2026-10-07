@@ -1,4 +1,12 @@
 // PER-8195 Phase 3 — automate-appium-dotnet advanced example.
+//
+// Percy on Automate with Appium captures a mobile *browser* session (Chrome on a real
+// Android device), the same flow as ../PercyTest.cs. Native apps belong to App Percy:
+// the CLI's Automate capture runs JavaScript to read the screen size and regions, which
+// a native app session cannot do.
+//
+// PercyOnAutomate logs and swallows capture errors, so `make test` fails the run when
+// the Percy log reports one (see Makefile).
 
 using NUnit.Framework;
 using OpenQA.Selenium.Appium;
@@ -10,27 +18,31 @@ namespace PoaAdvanced;
 [TestFixture]
 public class AdvancedTests
 {
-    private AndroidDriver<AndroidElement>? _driver;
+    private const string HeaderXpath = "//h1";
+
+    private AndroidDriver? _driver;
     private PercyOnAutomate? _poa;
+
+    private static string Env(string name, string fallback) =>
+        Environment.GetEnvironmentVariable(name) ?? fallback;
 
     [OneTimeSetUp]
     public void SetUp()
     {
-        var caps = new AppiumOptions();
-        var bstackOptions = new Dictionary<string, object>
+        var caps = new AppiumOptions { PlatformName = "Android", BrowserName = "chrome" };
+        caps.AddAdditionalAppiumOption("bstack:options", new Dictionary<string, object>
         {
-            { "osVersion", Environment.GetEnvironmentVariable("OS_VERSION") ?? "12.0" },
-            { "deviceName", Environment.GetEnvironmentVariable("DEVICE") ?? "Samsung Galaxy S22 Ultra" },
-            { "projectName", Environment.GetEnvironmentVariable("PERCY_PROJECT") ?? "Percy Automate Appium-.NET Advanced" },
-            { "buildName", Environment.GetEnvironmentVariable("PERCY_BUILD") ?? "Advanced Automate Appium .NET" },
+            { "osVersion", Env("OS_VERSION", "12.0") },
+            { "deviceName", Env("DEVICE", "Samsung Galaxy S22 Ultra") },
+            { "appiumVersion", Env("APPIUM_VERSION", "2.19.0") },
+            { "projectName", Env("PERCY_PROJECT", "Percy Automate Appium-.NET Advanced") },
+            { "buildName", Env("PERCY_BUILD", "Advanced Automate Appium .NET") },
             { "sessionName", "advanced_visual_test" },
-            { "userName", Environment.GetEnvironmentVariable("BROWSERSTACK_USERNAME") ?? "" },
-            { "accessKey", Environment.GetEnvironmentVariable("BROWSERSTACK_ACCESS_KEY") ?? "" },
-        };
-        caps.AddAdditionalCapability("bstack:options", bstackOptions);
-        caps.AddAdditionalCapability("app", Environment.GetEnvironmentVariable("APP"));
-        _driver = new AndroidDriver<AndroidElement>(
-            new Uri("https://hub-cloud.browserstack.com/wd/hub"), caps);
+            { "userName", Env("BROWSERSTACK_USERNAME", "") },
+            { "accessKey", Env("BROWSERSTACK_ACCESS_KEY", "") },
+        });
+        _driver = new AndroidDriver(new Uri("https://hub-cloud.browserstack.com/wd/hub"), caps, TimeSpan.FromMinutes(3));
+        _driver.Navigate().GoToUrl(Env("URL", "https://en.wikipedia.org/wiki/BrowserStack"));
         _poa = new PercyOnAutomate(_driver);
         Thread.Sleep(5000);
     }
@@ -39,35 +51,32 @@ public class AdvancedTests
     public void TearDown() => _driver?.Quit();
 
     [Test]
-    public void ExercisesBaseline() => _poa!.Screenshot("Wikipedia Home");
+    public void ExercisesBaseline() => _poa!.Screenshot("Wikipedia Article");
 
     [Test]
-    public void ExercisesDeviceNameAndOrientation()
+    public void ExercisesFullPage()
     {
-        _poa!.Screenshot("Wikipedia Home — landscape", new Dictionary<string, object>
+        _poa!.Screenshot("Wikipedia Article — full page", new Dictionary<string, object>
         {
-            { "device_name", Environment.GetEnvironmentVariable("DEVICE") ?? "Samsung Galaxy S22 Ultra" },
-            { "orientation", "landscape" },
-        });
-    }
-
-    [Test]
-    public void ExercisesFullscreenAndBars()
-    {
-        _poa!.Screenshot("Wikipedia Home — fullscreen", new Dictionary<string, object>
-        {
-            { "fullscreen", true },
-            { "status_bar_height", 24 },
-            { "nav_bar_height", 0 },
+            { "full_page", true },
         });
     }
 
     [Test]
     public void ExercisesIgnoreRegionsViaXpath()
     {
-        _poa!.Screenshot("Wikipedia Home — ignore via xpath", new Dictionary<string, object>
+        _poa!.Screenshot("Wikipedia Article — ignore via xpath", new Dictionary<string, object>
         {
-            { "ignore_regions_xpaths", new[] { "//android.widget.TextView[@text=\"Search Wikipedia\"]" } },
+            { "ignore_region_xpaths", new[] { HeaderXpath } },
+        });
+    }
+
+    [Test]
+    public void ExercisesIgnoreRegionsViaSelector()
+    {
+        _poa!.Screenshot("Wikipedia Article — ignore via selector", new Dictionary<string, object>
+        {
+            { "ignore_region_selectors", new[] { "h1" } },
         });
     }
 
@@ -78,7 +87,7 @@ public class AdvancedTests
         {
             { "top", 0 }, { "bottom", 100 }, { "left", 0 }, { "right", 300 },
         };
-        _poa!.Screenshot("Wikipedia Home — custom ignore region", new Dictionary<string, object>
+        _poa!.Screenshot("Wikipedia Article — custom ignore region", new Dictionary<string, object>
         {
             { "custom_ignore_regions", new[] { region } },
         });
@@ -87,16 +96,16 @@ public class AdvancedTests
     [Test]
     public void ExercisesConsiderRegionsViaXpath()
     {
-        _poa!.Screenshot("Wikipedia Home — consider via xpath", new Dictionary<string, object>
+        _poa!.Screenshot("Wikipedia Article — consider via xpath", new Dictionary<string, object>
         {
-            { "consider_regions_xpaths", new[] { "//android.widget.TextView[@text=\"Search Wikipedia\"]" } },
+            { "consider_region_xpaths", new[] { HeaderXpath } },
         });
     }
 
     [Test]
     public void ExercisesSyncMode()
     {
-        _poa!.Screenshot("Wikipedia Home — sync", new Dictionary<string, object>
+        _poa!.Screenshot("Wikipedia Article — sync", new Dictionary<string, object>
         {
             { "sync", true },
         });
@@ -105,7 +114,7 @@ public class AdvancedTests
     [Test]
     public void ExercisesTestCaseAndLabels()
     {
-        _poa!.Screenshot("Wikipedia Home — test_case + labels", new Dictionary<string, object>
+        _poa!.Screenshot("Wikipedia Article — test_case + labels", new Dictionary<string, object>
         {
             { "test_case", "home-smoke" },
             { "labels", "smoke,automate-appium-dotnet" },

@@ -14,3 +14,4 @@ node_modules/
 .settings
 
 *.DS_Store
+percy-run.log
