@@ -1,7 +1,8 @@
 NPM=node_modules/.bin
 SHELL := /bin/bash
-# Percy SDK capture errors are logged and swallowed, so the run is failed on them here.
-PERCY_ERRORS := Could not take|: Error -
+# Percy SDK capture errors and skipped captures are logged and swallowed, so the run is
+# failed on them here.
+PERCY_ERRORS := Could not take|Could not post screenshot|Error taking screenshot|failed to take screenshot|Percy is not running|percy is disabled|: Error -
 
 .PHONY: install clean test test-advanced
 
