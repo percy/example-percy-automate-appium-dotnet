@@ -34,6 +34,7 @@ namespace PoaScreenshot{
       browserstackOptions.Add("userName", USERNAME);
       browserstackOptions.Add("accessKey", ACCESS_KEY);
       browserstackOptions.Add("browserName", "chrome");
+      browserstackOptions.Add("appiumVersion", Environment.GetEnvironmentVariable("APPIUM_VERSION") ?? "2.19.0");
       capabilities.AddAdditionalCapability("bstack:options", browserstackOptions);
       driver = new AndroidDriver<AndroidElement>(new Uri(BROWSERSTACK_URL), capabilities);
     }
